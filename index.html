@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Huesca Digital — Desarrollo de Software y Apps a Medida</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde: #1a5c3a;
+  --verde-claro: #2d8c5a;
+  --verde-suave: #e8f5ee;
+  --tierra: #c8602a;
+  --tierra-claro: #e8845a;
+  --crema: #f7f3ec;
+  --crema-oscuro: #ede8df;
+  --negro: #0f1a14;
+  --gris: #6b7c72;
+  --blanco: #ffffff;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--crema);
+  color: var(--negro);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .logo { font-family: 'Syne', sans-serif; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.25rem 4rem;
+  background: rgba(247, 243, 236, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(26,92,58,0.1);
+}
+
+.logo {
+  font-size: 1.3rem; font-weight: 800; color: var(--verde);
+  letter-spacing: -0.02em;
+}
+.logo span { color: var(--tierra); }
+
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  text-decoration: none; color: var(--negro); font-size: 0.9rem;
+  font-weight: 500; opacity: 0.7; transition: opacity 0.2s;
+}
+.nav-links a:hover { opacity: 1; }
+
+.nav-cta {
+  background: var(--verde); color: var(--blanco);
+  padding: 0.6rem 1.4rem; border-radius: 100px;
+  text-decoration: none; font-size: 0.875rem; font-weight: 500;
+  transition: background 0.2s;
+}
+.nav-cta:hover { background: var(--verde-claro); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 8rem 4rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute; top: -20%; right: -10%;
+  width: 60vw; height: 60vw;
+  background: radial-gradient(circle, rgba(26,92,58,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: var(--verde-suave); color: var(--verde);
+  padding: 0.4rem 1rem; border-radius: 100px;
+  font-size: 0.8rem; font-weight: 500; margin-bottom: 1.5rem;
+  border: 1px solid rgba(26,92,58,0.15);
+}
+.hero-badge::before {
+  content: ''; width: 6px; height: 6px;
+  background: var(--verde-claro); border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 4.5vw, 4rem);
+  font-weight: 800; line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+
+.hero-title .accent { color: var(--tierra); }
+.hero-title .verde { color: var(--verde); }
+
+.hero-desc {
+  font-size: 1.1rem; line-height: 1.7;
+  color: var(--gris); max-width: 480px;
+  margin-bottom: 2.5rem; font-weight: 300;
+}
+
+.hero-actions { display: flex; gap: 1rem; align-items: center; }
+
+.btn-primary {
+  background: var(--verde); color: var(--blanco);
+  padding: 0.9rem 2rem; border-radius: 100px;
+  text-decoration: none; font-weight: 500; font-size: 0.95rem;
+  transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.btn-primary:hover { background: var(--verde-claro); transform: translateY(-1px); }
+
+.btn-secondary {
+  color: var(--negro); text-decoration: none;
+  font-weight: 500; font-size: 0.95rem;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  opacity: 0.7; transition: opacity 0.2s;
+}
+.btn-secondary:hover { opacity: 1; }
+
+.hero-visual {
+  display: flex; justify-content: center; align-items: center;
+  position: relative;
+}
+
+.hero-card {
+  background: var(--blanco);
+  border-radius: 24px;
+  padding: 2rem;
+  width: 100%; max-width: 420px;
+  box-shadow: 0 20px 60px rgba(15,26,20,0.12);
+  position: relative;
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.card-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 1.5rem;
+}
+.card-title { font-size: 0.8rem; font-weight: 500; color: var(--gris); text-transform: uppercase; letter-spacing: 0.06em; }
+.card-badge {
+  background: var(--verde-suave); color: var(--verde);
+  font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 100px; font-weight: 500;
+}
+
+.metric-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1rem; margin-bottom: 1.25rem;
+}
+.metric {
+  background: var(--crema); border-radius: 12px; padding: 1rem;
+}
+.metric-label { font-size: 0.72rem; color: var(--gris); margin-bottom: 0.3rem; font-weight: 500; }
+.metric-value { font-size: 1.4rem; font-weight: 700; color: var(--negro); font-family: 'Syne', sans-serif; }
+.metric-value.positivo { color: var(--verde); }
+.metric-value.tierra { color: var(--tierra); }
+
+.chart-bars {
+  display: flex; align-items: flex-end; gap: 6px; height: 60px; margin-bottom: 0.75rem;
+}
+.bar {
+  flex: 1; background: var(--verde-suave); border-radius: 4px 4px 0 0;
+  transition: height 0.3s;
+}
+.bar.active { background: var(--verde); }
+.bar:nth-child(6) { background: var(--tierra-claro); }
+
+.chart-label { font-size: 0.7rem; color: var(--gris); display: flex; justify-content: space-between; }
+
+.floating-chip {
+  position: absolute;
+  background: var(--blanco); border-radius: 12px; padding: 0.6rem 1rem;
+  box-shadow: 0 8px 24px rgba(15,26,20,0.1);
+  font-size: 0.78rem; font-weight: 500;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.chip-1 { top: -20px; right: -20px; color: var(--verde); }
+.chip-2 { bottom: 20px; left: -30px; color: var(--tierra); }
+.chip-dot { width: 8px; height: 8px; border-radius: 50%; }
+.chip-dot.verde { background: var(--verde); }
+.chip-dot.tierra { background: var(--tierra); }
+
+/* STATS */
+.stats-bar {
+  background: var(--negro);
+  padding: 2rem 4rem;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+.stat { text-align: center; }
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 2rem; font-weight: 800; color: var(--blanco);
+  display: block;
+}
+.stat-num span { color: var(--tierra-claro); }
+.stat-label { font-size: 0.82rem; color: rgba(255,255,255,0.5); margin-top: 0.25rem; }
+
+/* SERVICIOS */
+.servicios {
+  padding: 6rem 4rem;
+}
+.section-label {
+  font-size: 0.78rem; font-weight: 600; color: var(--verde);
+  text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem;
+}
+.section-title {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 800; letter-spacing: -0.03em;
+  margin-bottom: 1rem; max-width: 560px;
+}
+.section-desc {
+  color: var(--gris); font-size: 1rem; line-height: 1.7;
+  max-width: 520px; margin-bottom: 3rem; font-weight: 300;
+}
+
+.servicios-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+}
+
+.servicio-card {
+  background: var(--blanco); border-radius: 20px;
+  padding: 2rem; border: 1px solid rgba(26,92,58,0.08);
+  transition: all 0.3s; position: relative; overflow: hidden;
+}
+.servicio-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--verde); transform: scaleX(0); transition: transform 0.3s;
+}
+.servicio-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(15,26,20,0.1); }
+.servicio-card:hover::before { transform: scaleX(1); }
+
+.servicio-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.25rem; font-size: 1.4rem;
+}
+.icon-verde { background: var(--verde-suave); }
+.icon-tierra { background: rgba(200,96,42,0.1); }
+.icon-oscuro { background: rgba(15,26,20,0.06); }
+
+.servicio-titulo {
+  font-size: 1.1rem; font-weight: 700; margin-bottom: 0.6rem; letter-spacing: -0.01em;
+}
+.servicio-desc {
+  font-size: 0.875rem; color: var(--gris); line-height: 1.65; font-weight: 300;
+}
+
+/* PORTFOLIO */
+.portfolio {
+  background: var(--negro); padding: 6rem 4rem;
+  color: var(--blanco);
+}
+.portfolio .section-label { color: var(--tierra-claro); }
+.portfolio .section-title { color: var(--blanco); }
+.portfolio .section-desc { color: rgba(255,255,255,0.5); }
+
+.portfolio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+.portfolio-card {
+  background: rgba(255,255,255,0.04); border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.08); padding: 2rem;
+  transition: all 0.3s;
+}
+.portfolio-card:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.15);
+}
+.portfolio-card.featured {
+  grid-column: 1 / -1;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center;
+}
+
+.p-tag {
+  display: inline-block;
+  font-size: 0.72rem; font-weight: 600;
+  padding: 0.3rem 0.75rem; border-radius: 100px;
+  margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.06em;
+}
+.tag-verde { background: rgba(26,92,58,0.3); color: #6ec98a; }
+.tag-tierra { background: rgba(200,96,42,0.2); color: var(--tierra-claro); }
+.tag-dev { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); }
+
+.p-titulo {
+  font-size: 1.3rem; font-weight: 700; color: var(--blanco);
+  margin-bottom: 0.75rem; letter-spacing: -0.02em;
+}
+.p-desc {
+  font-size: 0.875rem; color: rgba(255,255,255,0.5);
+  line-height: 1.65; font-weight: 300;
+}
+
+.p-features { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.p-feature {
+  display: flex; align-items: center; gap: 0.6rem;
+  font-size: 0.82rem; color: rgba(255,255,255,0.6);
+}
+.p-feature::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--verde-claro); flex-shrink: 0;
+}
+
+.p-screen {
+  background: rgba(255,255,255,0.03); border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 1.5rem; font-family: 'Syne', sans-serif;
+}
+.screen-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 1.25rem; padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.screen-title { font-size: 0.8rem; color: rgba(255,255,255,0.4); }
+.screen-date { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+.screen-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.sm {
+  background: rgba(255,255,255,0.03); border-radius: 10px; padding: 0.75rem;
+}
+.sm-label { font-size: 0.68rem; color: rgba(255,255,255,0.35); margin-bottom: 0.3rem; }
+.sm-value { font-size: 1.1rem; font-weight: 700; }
+.sm-value.pos { color: #6ec98a; }
+.sm-value.neu { color: rgba(255,255,255,0.8); }
+
+/* PROCESO */
+.proceso { padding: 6rem 4rem; background: var(--crema-oscuro); }
+.proceso-steps {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 3rem;
+}
+.step { position: relative; }
+.step-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 3rem; font-weight: 800;
+  color: rgba(26,92,58,0.12); line-height: 1;
+  margin-bottom: 1rem;
+}
+.step-titulo { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+.step-desc { font-size: 0.85rem; color: var(--gris); line-height: 1.65; font-weight: 300; }
+.step-connector {
+  position: absolute; top: 2rem; right: -1rem;
+  width: 2rem; height: 1px; background: var(--verde);
+  opacity: 0.3;
+}
+.step:last-child .step-connector { display: none; }
+
+/* CONTACTO */
+.contacto {
+  padding: 6rem 4rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+}
+.contacto-titulo { font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 1rem; }
+.contacto-desc { color: var(--gris); font-size: 1rem; line-height: 1.7; margin-bottom: 2rem; font-weight: 300; }
+
+.contacto-info { display: flex; flex-direction: column; gap: 1rem; }
+.info-item {
+  display: flex; align-items: center; gap: 1rem;
+  font-size: 0.9rem; color: var(--gris);
+}
+.info-icon {
+  width: 40px; height: 40px; background: var(--verde-suave);
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0;
+}
+
+.contacto-form { display: flex; flex-direction: column; gap: 1rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.form-group label { font-size: 0.8rem; font-weight: 500; color: var(--negro); }
+.form-group input, .form-group textarea, .form-group select {
+  background: var(--blanco); border: 1px solid rgba(26,92,58,0.15);
+  border-radius: 10px; padding: 0.75rem 1rem;
+  font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--negro);
+  transition: border-color 0.2s; outline: none;
+}
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+  border-color: var(--verde);
+}
+.form-group textarea { resize: vertical; min-height: 100px; }
+.form-submit {
+  background: var(--verde); color: var(--blanco);
+  border: none; border-radius: 100px; padding: 0.9rem 2rem;
+  font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500;
+  cursor: pointer; transition: all 0.2s; align-self: flex-start;
+}
+.form-submit:hover { background: var(--verde-claro); transform: translateY(-1px); }
+
+/* FOOTER */
+footer {
+  background: var(--negro); color: rgba(255,255,255,0.5);
+  padding: 2rem 4rem;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.82rem;
+}
+footer .logo { font-size: 1rem; color: var(--blanco); }
+footer .logo span { color: var(--tierra-claro); }
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-content > * { animation: fadeUp 0.7s ease both; }
+.hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+.hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+.hero-content > *:nth-child(3) { animation-delay: 0.3s; }
+.hero-content > *:nth-child(4) { animation-delay: 0.4s; }
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
+  .hero-visual { display: none; }
+  .stats-bar { grid-template-columns: 1fr 1fr; padding: 2rem 1.5rem; }
+  .servicios, .proceso, .portfolio, .contacto { padding: 4rem 1.5rem; }
+  .servicios-grid { grid-template-columns: 1fr; }
+  .portfolio-grid { grid-template-columns: 1fr; }
+  .portfolio-card.featured { grid-column: 1; grid-template-columns: 1fr; }
+  .proceso-steps { grid-template-columns: 1fr 1fr; }
+  .contacto { grid-template-columns: 1fr; gap: 3rem; }
+  .form-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Huesca<span>Digital</span></div>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#proceso">Proceso</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a href="#contacto" class="nav-cta">Hablemos →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">📍 Desarrollador local en Huesca</div>
+    <h1 class="hero-title">
+      Software a medida<br>
+      para negocios que<br>
+      quieren <span class="accent">crecer</span>
+    </h1>
+    <p class="hero-desc">
+      Soy Danilo Acevedo, desarrollador en Huesca. Creo apps, webs y sistemas de gestión que resuelven problemas reales — con tecnología seria y trato cercano.
+    </p>
+    <div class="hero-actions">
+      <a href="#contacto" class="btn-primary">Cuéntame tu proyecto →</a>
+      <a href="#portfolio" class="btn-secondary">Ver mi trabajo ↓</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card">
+      <div class="floating-chip chip-1"><div class="chip-dot verde"></div>Sistema activo</div>
+      <div class="floating-chip chip-2"><div class="chip-dot tierra"></div>+18% rentabilidad</div>
+      <div class="card-header">
+        <span class="card-title">Resumen financiero</span>
+        <span class="card-badge">En vivo</span>
+      </div>
+      <div class="metric-row">
+        <div class="metric">
+          <div class="metric-label">Ingresos mes</div>
+          <div class="metric-value positivo">€84.2k</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Gastos</div>
+          <div class="metric-value tierra">€51.6k</div>
+        </div>
+      </div>
+      <div class="chart-bars">
+        <div class="bar" style="height:40%"></div>
+        <div class="bar" style="height:60%"></div>
+        <div class="bar" style="height:45%"></div>
+        <div class="bar" style="height:80%"></div>
+        <div class="bar active" style="height:70%"></div>
+        <div class="bar" style="height:90%"></div>
+        <div class="bar active" style="height:100%"></div>
+      </div>
+      <div class="chart-label"><span>Oct</span><span>Nov</span><span>Dic</span><span>Ene</span><span>Feb</span><span>Mar</span><span>Abr</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat">
+    <span class="stat-num">10<span>+</span></span>
+    <div class="stat-label">Proyectos en producción</div>
+  </div>
+  <div class="stat">
+    <span class="stat-num">100<span>%</span></span>
+    <div class="stat-label">Código a medida</div>
+  </div>
+  <div class="stat">
+    <span class="stat-num">48<span>h</span></span>
+    <div class="stat-label">Respuesta máxima</div>
+  </div>
+  <div class="stat">
+    <span class="stat-num">0<span>€</span></span>
+    <div class="stat-label">Consulta inicial</div>
+  </div>
+</div>
+
+<!-- SERVICIOS -->
+<section class="servicios" id="servicios">
+  <div class="section-label">Lo que hago</div>
+  <h2 class="section-title">Todo lo que tu negocio necesita en digital</h2>
+  <p class="section-desc">Desde una web corporativa hasta un sistema de gestión complejo. Trabajo con tecnologías sólidas y resultados medibles.</p>
+
+  <div class="servicios-grid">
+    <div class="servicio-card">
+      <div class="servicio-icon icon-verde">🌐</div>
+      <div class="servicio-titulo">Webs corporativas y e-commerce</div>
+      <div class="servicio-desc">Presencia online profesional que convierte visitas en clientes. Diseño moderno, rápido y adaptado a cualquier dispositivo.</div>
+    </div>
+    <div class="servicio-card">
+      <div class="servicio-icon icon-tierra">📊</div>
+      <div class="servicio-titulo">Apps de gestión a medida</div>
+      <div class="servicio-desc">Sistemas internos que automatizan procesos, reducen errores y te dan visibilidad real de tu negocio en tiempo real.</div>
+    </div>
+    <div class="servicio-card">
+      <div class="servicio-icon icon-verde">📱</div>
+      <div class="servicio-titulo">Aplicaciones web progresivas</div>
+      <div class="servicio-desc">Apps que funcionan en el móvil como nativas, sin coste de desarrollo iOS y Android. Tu negocio siempre accesible.</div>
+    </div>
+    <div class="servicio-card">
+      <div class="servicio-icon icon-oscuro">🌾</div>
+      <div class="servicio-titulo">Software para sector agro</div>
+      <div class="servicio-desc">Soluciones digitales pensadas para el campo aragonés. Control de producción, trazabilidad, partes de trabajo y más.</div>
+    </div>
+    <div class="servicio-card">
+      <div class="servicio-icon icon-verde">🔒</div>
+      <div class="servicio-titulo">Auditoría y seguridad web</div>
+      <div class="servicio-desc">Revisión de vulnerabilidades, protección de datos y cumplimiento RGPD. Tu negocio seguro frente a amenazas digitales.</div>
+    </div>
+    <div class="servicio-card">
+      <div class="servicio-icon icon-tierra">🔧</div>
+      <div class="servicio-titulo">Mantenimiento y evolución</div>
+      <div class="servicio-desc">Tu software siempre actualizado, seguro y funcionando. Soporte cercano con alguien que conoce tu proyecto de verdad.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+  <div class="section-label">Portfolio</div>
+  <h2 class="section-title">Proyectos reales</h2>
+  <p class="section-desc">Cada proyecto resuelve un problema concreto. Sin plantillas, sin atajos.</p>
+
+  <div class="portfolio-grid">
+    <div class="portfolio-card featured">
+      <div>
+        <div class="p-tag tag-verde">En producción</div>
+        <div class="p-titulo">Sistema de Gestión Financiera Empresarial</div>
+        <p class="p-desc">Plataforma completa para el control financiero de una empresa. Dashboard en tiempo real con análisis de rentabilidad, control de gastos por departamento y visión del estado financiero global.</p>
+        <div class="p-features">
+          <div class="p-feature">Resumen financiero en tiempo real</div>
+          <div class="p-feature">Gestión de gastos por departamento</div>
+          <div class="p-feature">Control de ingresos y rentabilidad</div>
+          <div class="p-feature">Estado financiero completo de la empresa</div>
+          <div class="p-feature">Desarrollado con Django y Python</div>
+        </div>
+      </div>
+      <div class="p-screen">
+        <div class="screen-header">
+          <span class="screen-title">Panel financiero</span>
+          <span class="screen-date">Abril 2025</span>
+        </div>
+        <div class="screen-metrics">
+          <div class="sm">
+            <div class="sm-label">Rentabilidad</div>
+            <div class="sm-value pos">+18.4%</div>
+          </div>
+          <div class="sm">
+            <div class="sm-label">Ingresos anuales</div>
+            <div class="sm-value neu">€924k</div>
+          </div>
+          <div class="sm">
+            <div class="sm-label">Depts. activos</div>
+            <div class="sm-value neu">7</div>
+          </div>
+          <div class="sm">
+            <div class="sm-label">Estado</div>
+            <div class="sm-value pos">Saludable</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="portfolio-card">
+      <div class="p-tag tag-dev">En desarrollo</div>
+      <div class="p-titulo">Web Corporativa Sector Agro</div>
+      <p class="p-desc">Sitio web para empresa del sector agrícola aragonés. Presencia digital moderna con catálogo de productos y contacto integrado.</p>
+      <div class="p-features">
+        <div class="p-feature">Diseño adaptado al sector</div>
+        <div class="p-feature">Optimización SEO local</div>
+        <div class="p-feature">Panel de administración propio</div>
+      </div>
+    </div>
+
+    <div class="portfolio-card">
+      <div class="p-tag tag-tierra">Próximamente</div>
+      <div class="p-titulo">¿Tu proyecto aquí?</div>
+      <p class="p-desc">Estoy buscando proyectos interesantes en Huesca y Aragón. Si tienes una idea o un problema que resolver, hablemos.</p>
+      <div class="p-features">
+        <div class="p-feature">Presupuesto sin compromiso</div>
+        <div class="p-feature">Primera consulta gratuita</div>
+        <div class="p-feature">Trato cercano y directo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section class="proceso" id="proceso">
+  <div class="section-label">Cómo trabajo</div>
+  <h2 class="section-title">Un proceso claro, sin sorpresas</h2>
+  <p class="section-desc">Sé lo que es confiar en alguien con tu proyecto. Por eso trabajo con transparencia total en cada paso.</p>
+
+  <div class="proceso-steps">
+    <div class="step">
+      <div class="step-connector"></div>
+      <div class="step-num">01</div>
+      <div class="step-titulo">Escucho tu proyecto</div>
+      <div class="step-desc">Primera reunión gratuita para entender qué necesitas, qué problema resuelves y cuál es el objetivo real.</div>
+    </div>
+    <div class="step">
+      <div class="step-connector"></div>
+      <div class="step-num">02</div>
+      <div class="step-titulo">Propuesta clara</div>
+      <div class="step-desc">Te presento qué se va a hacer, cómo, en cuánto tiempo y a qué coste. Sin letra pequeña.</div>
+    </div>
+    <div class="step">
+      <div class="step-connector"></div>
+      <div class="step-num">03</div>
+      <div class="step-titulo">Desarrollo con visibilidad</div>
+      <div class="step-desc">Ves el progreso en tiempo real. Feedback continuo para que el resultado sea exactamente lo que necesitas.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-titulo">Lanzamiento y soporte</div>
+      <div class="step-desc">Entrega, formación y soporte continuo. No desaparezco cuando el proyecto termina.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="contacto" id="contacto">
+  <div>
+    <div class="section-label">Contacto</div>
+    <h2 class="contacto-titulo">Hablemos de tu proyecto</h2>
+    <p class="contacto-desc">Primera consulta gratuita y sin compromiso. Cuéntame qué necesitas y te digo si puedo ayudarte — con honestidad.</p>
+    <div class="contacto-info">
+      <div class="info-item"><div class="info-icon">📍</div> Huesca, Aragón — trabajo presencial y remoto</div>
+      <div class="info-item"><div class="info-icon">⚡</div> Respondo en menos de 48 horas</div>
+      <div class="info-item"><div class="info-icon">🤝</div> Trato directo con el desarrollador, sin intermediarios</div>
+    </div>
+  </div>
+  <div>
+    <form class="contacto-form" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nombre">Tu nombre</label>
+          <input type="text" id="nombre" placeholder="Juan García" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="juan@empresa.com" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="tipo">Tipo de proyecto</label>
+        <select id="tipo">
+          <option value="">Selecciona una opción</option>
+          <option>Web corporativa</option>
+          <option>Tienda online</option>
+          <option>App de gestión</option>
+          <option>Software a medida</option>
+          <option>Mantenimiento</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="mensaje">Cuéntame tu proyecto</label>
+        <textarea id="mensaje" placeholder="¿Qué quieres construir? ¿Qué problema resuelves? Cuanto más detalle, mejor..." required></textarea>
+      </div>
+      <button type="submit" class="form-submit">Enviar mensaje →</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">Huesca<span>Digital</span></div>
+  <span>© 2025 Danilo Acevedo Rojas · Huesca, Aragón</span>
+  <span>Hecho con Django & Python 🐍</span>
+</footer>
+
+<script>
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.form-submit');
+  btn.textContent = '¡Mensaje enviado! ✓';
+  btn.style.background = '#2d8c5a';
+  setTimeout(() => {
+    btn.textContent = 'Enviar mensaje →';
+    btn.style.background = '';
+    e.target.reset();
+  }, 3000);
+}
+</script>
+</body>
+</html>
