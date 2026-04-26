@@ -441,8 +441,13 @@ footer .logo span { color: var(--tierra-claro); }
 </head>
 <body>
 
-<nav>
-  <div class="logo">Huesca<span>Digital</span></div>
+<nav id="inicio">
+
+  <div class="logo">
+    <a href="/" style="text-decoration: none; color: inherit;">
+        Huesca<span>Digital</span>
+    </a>
+  </div>
   <ul class="nav-links">
     <li><a href="#servicios">Servicios</a></li>
     <li><a href="#portfolio">Portfolio</a></li>
@@ -674,23 +679,23 @@ footer .logo span { color: var(--tierra-claro); }
       <div class="info-item"><div class="info-icon">📍</div> Huesca, Aragón — trabajo presencial y remoto</div>
       <div class="info-item"><div class="info-icon">⚡</div> Respondo en menos de 48 horas</div>
       <div class="info-item"><div class="info-icon">🤝</div> Trato directo con el desarrollador, sin intermediarios</div>
-    </div>
+      <div class="info-item"><div class="info-icon">📧</div><div><a href="mailto:info@huescadigital.es" style="color: inherit; text-decoration: none;">info@huescadigital.es</a></div></div></div>
   </div>
   <div>
-    <form class="contacto-form" onsubmit="handleSubmit(event)">
-      <div class="form-row">
+    <form class="contacto-form" id="my-form" action="https://formspree.io/f/mgorbvwo" method="POST">
+        <div class="form-row">
         <div class="form-group">
           <label for="nombre">Tu nombre</label>
-          <input type="text" id="nombre" placeholder="Juan García" required>
+          <input type="text" name="nombre" id="nombre" placeholder="Juan García" required>
         </div>
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" placeholder="juan@empresa.com" required>
+          <input type="email" name="email" id="email" placeholder="juan@empresa.com" required>
         </div>
       </div>
       <div class="form-group">
         <label for="tipo">Tipo de proyecto</label>
-        <select id="tipo">
+        <select id="tipo" name="tipo-proyecto">
           <option value="">Selecciona una opción</option>
           <option>Web corporativa</option>
           <option>Tienda online</option>
@@ -702,7 +707,7 @@ footer .logo span { color: var(--tierra-claro); }
       </div>
       <div class="form-group">
         <label for="mensaje">Cuéntame tu proyecto</label>
-        <textarea id="mensaje" placeholder="¿Qué quieres construir? ¿Qué problema resuelves? Cuanto más detalle, mejor..." required></textarea>
+        <textarea id="mensaje" name="mensaje" placeholder="¿Qué quieres construir? ¿Qué problema resuelves? Cuanto más detalle, mejor..." required></textarea>
       </div>
       <button type="submit" class="form-submit">Enviar mensaje →</button>
     </form>
@@ -716,17 +721,41 @@ footer .logo span { color: var(--tierra-claro); }
 </footer>
 
 <script>
-function handleSubmit(e) {
-  e.preventDefault();
-  const btn = e.target.querySelector('.form-submit');
-  btn.textContent = '¡Mensaje enviado! ✓';
-  btn.style.background = '#2d8c5a';
-  setTimeout(() => {
-    btn.textContent = 'Enviar mensaje →';
-    btn.style.background = '';
-    e.target.reset();
-  }, 3000);
-}
+  var form = document.getElementById("my-form");
+  
+  async function handleSubmit(event) {
+    event.preventDefault();
+    var status = document.querySelector(".form-submit");
+    var data = new FormData(event.target);
+    
+    status.textContent = "Enviando...";
+    status.disabled = true;
+
+    fetch(event.target.action, {
+      method: form.method,
+      body: data,
+      headers: {
+          'Accept': 'application/json'
+      }
+    }).then(response => {
+      if (response.ok) {
+        status.textContent = "¡Mensaje enviado! ✓";
+        status.style.background = "#2d8c5a";
+        form.reset();
+      } else {
+        status.textContent = "Error al enviar ❌";
+        status.style.background = "#c8602a";
+      }
+      setTimeout(() => {
+        status.textContent = "Enviar mensaje →";
+        status.style.background = "";
+        status.disabled = false;
+      }, 4000);
+    }).catch(error => {
+      status.textContent = "Error de conexión ❌";
+    });
+  }
+  form.addEventListener("submit", handleSubmit)
 </script>
 </body>
 </html>
